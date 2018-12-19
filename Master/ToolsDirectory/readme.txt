@@ -1,1 +1,0 @@
-This is where file server will be hosted so that slaves can download files
