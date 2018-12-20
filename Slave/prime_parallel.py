@@ -44,7 +44,7 @@ class MyService(rpyc.Service):
             if arr4.__getitem__(i) != 0:
                 arr.append(arr4.__getitem__(i))
          
-        return arr    
+        return str(len(arr))    
 
     def find_prime(self,ll, ul, array):
         k=0
