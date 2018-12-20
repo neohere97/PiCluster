@@ -17,7 +17,7 @@ class MyService(rpyc.Service):
                         break
                 else:
                     a.append(num)       
-        return a    
+        return str(len(a))    
 if __name__ == "__main__":
     from rpyc.utils.server import ThreadedServer
     t = ThreadedServer(MyService, port=18864)
