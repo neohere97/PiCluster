@@ -1,4 +1,5 @@
 import rpyc
+import hashlib
 class MyService(rpyc.Service):
     def on_connect(self, conn):
         
@@ -18,6 +19,20 @@ class MyService(rpyc.Service):
                 else:
                     a.append(num)       
         return str(len(a))    
+
+    def exposed_decrypt(self,crypt_msg,upper,lower):
+        for j in range(lower,upper):
+            dec_msg = []
+            orig_hash = crypt_msg[len(crypt_msg)-1]
+            k = str(j)
+            for l in range(len(crypt_msg)-1):
+                dec_msg.append(chr(ord(crypt_msg[l]) - int((k[l % len(k)]))))
+            dec_hash_msg = ''.join(dec_msg).encode()
+            dec_hash = hashlib.sha1(dec_hash_msg).hexdigest()
+            if dec_hash == orig_hash:
+                return True, j
+        return False
+
 if __name__ == "__main__":
     from rpyc.utils.server import ThreadedServer
     t = ThreadedServer(MyService, port=18863)
