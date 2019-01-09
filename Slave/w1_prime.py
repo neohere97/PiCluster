@@ -1,5 +1,6 @@
 import rpyc
 import hashlib
+import time
 class MyService(rpyc.Service):
     def on_connect(self, conn):
         
@@ -21,6 +22,7 @@ class MyService(rpyc.Service):
         return str(len(a))    
 
     def exposed_decrypt(self,crypt_msg,upper,lower):
+        t1 = time.time()
         for j in range(lower,upper):
             dec_msg = []
             orig_hash = crypt_msg[len(crypt_msg)-1]
@@ -30,7 +32,7 @@ class MyService(rpyc.Service):
             dec_hash_msg = ''.join(dec_msg).encode()
             dec_hash = hashlib.sha1(dec_hash_msg).hexdigest()
             if dec_hash == orig_hash:
-                return True, j
+                return True, j , time.time()-t1
         return False,0
 
 if __name__ == "__main__":

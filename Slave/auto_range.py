@@ -2,7 +2,7 @@ lower_limit = input("Give the lower limit")
 upper_limit = input("Give the upper limit")
 cycles = 0
 
-no_of_splits = 4
+no_of_splits = 20
 ranges = []
 k = 0
 l = 0

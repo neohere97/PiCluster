@@ -9,12 +9,10 @@ from flask import Flask,request
 
 app = Flask(__name__)
 
-
-
 @app.route('/runPrimeFivePi', methods=['POST'])
 def FivePrime():
-    data = json.loads(request.data.decode("utf-8"))    
-    range_splits = splitRange(data["Upper Limit"],data["Lower Limit"],20)    
+    data = json.loads(request.data.decode("utf-8"))        
+    range_splits = splitRange(data["Upper Limit"],data["Lower Limit"],20)     
     t= threading.Thread(target=PrimeFive,args=(range_splits,))
     t.start()
     return "OK"
@@ -201,19 +199,20 @@ def BruteFive(crypt_msg):
     o44 = rpyc.async_(o4.root.decrypt)(crypt_msg,10000,9500)
 
     workers = [[k11,k1],[k22,k2],[k33,k3],[k44,k4],[l11,l1],[l22,l2],[l33,l3],[l44,l4],[m11,m1],[m22,m2],[m33,m3],[m44,m4],[n11,n1],[n22,n2],[n33,n3],[n44,n4],[o11,o1],[o22,o2],[o33,o3],[o44,o4]]
-    passowrd = 0
-    t1 = time.time()
+    passowrd = 0   
+    t = 0
     flag = False
     while True:
         for i in range(0,20):
             if(workers[i][0].ready == True and workers[i][0].value[0] == True):
-                passowrd = workers[i][0].value[1]                
+                passowrd = workers[i][0].value[1] 
+                t = workers[i][0].value[2]               
                 for i in workers:
                     i[1].close()
                 flag = True
         if(flag):
             break
-    result = f"Passowrd Found: {passowrd}....... Time Taken : {time.time()-t1}"    
+    result = f"Passowrd Found: {passowrd} Time Taken : {t}"       
     send_result('http://127.0.0.1:1880/DecryptFiveResult',result)
 
 
@@ -233,21 +232,22 @@ def BruteOne(crypt_msg):
 
     workers = [[k11,k1],[k22,k2],[k33,k3],[k44,k4]]
     flag = False
-    t1 = time.time()
+    t = 0
+    password = 0
     while True:
         for i in range(0,4):
             if(workers[i][0].ready == True and workers[i][0].value[0] == True):
                 passowrd = workers[i][0].value[1]
-
+                t = workers[i][0].value[2]
                 for i in workers:
                     i[1].close()
                 flag = True
         if(flag):
             break
-    result = f"Passowrd Found: {passowrd}...... Time Taken : {time.time()-t1}"
-    
-    print(result)
+    result = f"Passowrd Found: {passowrd} Time Taken : {t}"
+    print(result)   
     send_result('http://127.0.0.1:1880/DecryptOneResult',result)
+
 
 def send_result(http_url,result):
     http = httplib2.Http()
@@ -262,6 +262,7 @@ def encrypt(msg,psw):
         enc_msg.append(chr(ord(msg[i]) + int((psw[i % len(psw)]))))
     enc_msg.append(hash_code)
     return enc_msg
+
 def splitRange(lower_limit,upper_limit,num_of_splits):    
     cycles = 0    
     ranges = []
