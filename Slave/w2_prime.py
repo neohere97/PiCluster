@@ -31,7 +31,7 @@ class MyService(rpyc.Service):
             dec_hash = hashlib.sha1(dec_hash_msg).hexdigest()
             if dec_hash == orig_hash:
                 return True, j
-        return False
+        return False,0
 
 if __name__ == "__main__":
     from rpyc.utils.server import ThreadedServer
