@@ -13,7 +13,7 @@ class MyService(rpyc.Service):
         a = []      
         for num in range(lower,upper+1):       
             if num > 1:
-                for i in range(2,num):
+                for i in range(2,int(num/2)):
                     if (num % i) == 0:
                         break
                 else:
