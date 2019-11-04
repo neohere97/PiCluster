@@ -112,7 +112,7 @@ def PrimeFive(range_splits):
     pi4_sum = int(n11.value) + int(n22.value) + int(n33.value) + int(n44.value)
     pi5_sum = int(o11.value) + int(o22.value) + int(o33.value) + int(o44.value)
 
-    result = f" Number of Prime Numbers : {pi1_sum + pi2_sum + pi3_sum + pi4_sum + pi5_sum} \n Time : {time.time() - t1} seconds "
+    result = f" Number of Prime Numbers : {pi1_sum + pi2_sum + pi3_sum + pi4_sum + pi5_sum - 1} \n Time : {time.time() - t1} seconds "
     
     send_result('http://127.0.0.1:1880/PrimeFiveResult',result)
 
@@ -140,7 +140,7 @@ def PrimeOne(range_splits):
     pi1_sum = int(k11.value) + int(k22.value) + int(k33.value) + int(k44.value)
     
 
-    result = f"Number Of Prime Numbers: {pi1_sum} \n Time : {time.time() - t1} seconds   "    
+    result = f"Number Of Prime Numbers: {pi1_sum - 1} \n Time : {time.time() - t1} seconds   "    
     
     send_result('http://127.0.0.1:1880/PrimeOneResult',result)
     
@@ -196,7 +196,7 @@ def BruteFive(crypt_msg):
     o11 = rpyc.async_(o1.root.decrypt)(crypt_msg,8500,8000)
     o22 = rpyc.async_(o2.root.decrypt)(crypt_msg,9000,8500)
     o33 = rpyc.async_(o3.root.decrypt)(crypt_msg,9500,9000)
-    o44 = rpyc.async_(o4.root.decrypt)(crypt_msg,10000,9500)
+    o44 = rpyc.async_(o4.root.decrypt)(crypt_msg,9999,9500)
 
     workers = [[k11,k1],[k22,k2],[k33,k3],[k44,k4],[l11,l1],[l22,l2],[l33,l3],[l44,l4],[m11,m1],[m22,m2],[m33,m3],[m44,m4],[n11,n1],[n22,n2],[n33,n3],[n44,n4],[o11,o1],[o22,o2],[o33,o3],[o44,o4]]
     passowrd = 0   
